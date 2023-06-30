@@ -10,7 +10,7 @@ namespace BlazorCRUD.Data
     {
         public dbContext(DbContextOptions<dbContext> options) : base(options)
         {
-
+            //  nothing ....
         }
         public DbSet<Employee> Employees { get; set; }
     }
