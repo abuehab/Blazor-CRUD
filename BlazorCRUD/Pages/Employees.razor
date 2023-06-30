@@ -1,0 +1,61 @@
+﻿@page "/Employees"
+@using BlazorCRUD.Data
+@inject IRepository employeeService
+
+<NavLink class="nav-link" href="AddEmployee">
+    <span class=" btn btn-primary  oi oi-plus" aria-hidden="true">Add New</span>
+
+</NavLink>
+<link rel="stylesheet" href="css/employee-list.css" />
+<h1>Employee Info</h1>
+@if (EmpObj is null)
+{
+    <p><em>Loading... !</em></p>
+}
+else
+{
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Emp Id</th>
+                    <th>Employee Name</th>
+                    <th>Gender</th>
+                    <th>Designation</th>
+                    <th>City</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var emp in EmpObj)
+                {
+                    <tr>
+                        <td>@emp.Id</td>
+                        <td>@emp.EmployeName</td>
+                        <td>@emp.Gender</td>
+                        <td>@emp.Designation</td>
+                        <td>@emp.City</td>
+                        <td>
+                            <a class="nav-link" href="EditEmployee/@emp.Id">
+                                <span class="btn btn-warning oi oi-pencil" aria-hidden="true">Edit</span>
+                            </a>
+                            <a class="nav-link" href="Delete/@emp.Id">
+                                <span class="btn btn-danger oi oi-trash" aria-hidden="true">Delete</span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+}
+
+
+@code {
+    List<Employee> EmpObj;
+    protected override async Task OnInitializedAsync()
+    {
+        EmpObj = await Task.Run(() => employeeService.GetAllEmployeesAsync());
+    }
+}
